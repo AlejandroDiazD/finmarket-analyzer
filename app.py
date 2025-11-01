@@ -13,7 +13,30 @@ st.title("📊 Market Insights Dashboard")
 
 # --- Sidebar ---
 st.sidebar.header("Settings")
-ticker = st.sidebar.text_input("Asset symbol (e.g., ^GSPC, AAPL, GC=F, BTC-USD)", "^GSPC")
+# Dropdown for asset selection
+asset_options = {
+    # ---- Global Indices ----
+    "MSCI World": "URTH",
+    "MSCI Emerging Markets": "EEM",
+
+    # ---- Commodities ----
+    "Gold": "GC=F",
+
+    # ---- Cryptocurrencies ----
+    "Bitcoin": "BTC-USD",
+    "Ethereum": "ETH-USD",
+
+    # ---- Fixed Income ----
+    "EU Gov Bonds 1-3Y": "IBGX.DE",
+
+    # ---- Thematic ETFs ----
+    "VanEck Uranium & Nuclear ETF": "NLR",
+    "iShares Global Clean Energy": "ICLN",
+}
+
+asset_name = st.sidebar.selectbox("Select asset", list(asset_options.keys()))
+ticker = asset_options[asset_name]
+
 period = st.sidebar.selectbox("Period", ["1y", "5y", "10y", "max"])
 interval = st.sidebar.selectbox("Interval", ["1d", "1wk", "1mo"])
 
@@ -31,7 +54,7 @@ with tab_dashboard:
         st.stop()
 
     data = add_technical_indicators(data)
-    st.plotly_chart(plot_candlestick(data, ticker), width='stretch')
+    st.plotly_chart(plot_candlestick(data, f"{asset_name} ({ticker})"), width='stretch')
     st.subheader("📉 Relative Strength Index (RSI)")
     st.plotly_chart(plot_rsi(data), width='stretch')
 
@@ -53,7 +76,7 @@ with tab_forecast:
     if fc.empty:
         st.warning("Not enough data to produce a forecast.")
     else:
-        st.plotly_chart(plot_forecast(data, fc, ticker), width='stretch')
+        st.plotly_chart(plot_forecast(data, fc, f"{asset_name} ({ticker})"), width='stretch')
 
     st.info("This forecast uses a simple linear regression trend based on recent data.")
 
