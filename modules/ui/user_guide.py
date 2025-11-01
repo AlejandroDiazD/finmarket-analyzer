@@ -19,8 +19,8 @@ def render_user_guide():
     - **Candlestick chart:** Displays open, high, low, and close prices.
     - **SMA 20 & SMA 50:** Moving averages to detect short- and mid-term trends.
     - **RSI (Relative Strength Index):**
-      - Above 70 → Overbought market (potential correction)
-      - Below 30 → Oversold market (potential rebound)
+      - Above 70 → Overbought
+      - Below 30 → Oversold
 
     ### 📈 Quick Metrics
     - **Current Price:** Latest closing price.
@@ -28,9 +28,7 @@ def render_user_guide():
     - **Current RSI:** Indicates whether the market is strong or weak.
 
     ### 💡 Tips
-    - Use RSI together with SMA crossovers for stronger insights.
-    - Compare short vs long-term trends by changing period and interval.
-    - Experiment with multiple tickers to observe correlations.
+    - Combine RSI with SMA crossovers for stronger insights.
+    - Use different periods to compare short vs long-term trends.
     """)
-
     st.info("This section is optional — open it anytime to recall how to interpret the dashboard.")
