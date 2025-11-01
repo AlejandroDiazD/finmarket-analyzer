@@ -7,6 +7,8 @@ from modules.analysis.metrics import get_quick_metrics
 from modules.analysis.forecast import make_linear_forecast
 from modules.visualization.plots import plot_candlestick, plot_rsi, plot_forecast
 from modules.ui.user_guide import render_user_guide
+from modules.ui.utils_ui import format_asset_title
+
 
 st.set_page_config(page_title="Market Insights Dashboard", layout="wide")
 st.title("📊 Market Insights Dashboard")
@@ -16,6 +18,8 @@ st.sidebar.header("Settings")
 # Dropdown for asset selection
 asset_options = {
     # ---- Global Indices ----
+    "S&P 500": "^GSPC",
+    "NASDAQ 100": "^NDX",
     "MSCI World": "URTH",
     "MSCI Emerging Markets": "EEM",
 
@@ -27,7 +31,7 @@ asset_options = {
     "Ethereum": "ETH-USD",
 
     # ---- Fixed Income ----
-    "EU Gov Bonds 1-3Y": "IBGX.DE",
+    "EU Gov Bonds 1-3Y": "EUNA.AS",  # working ETF replacement
 
     # ---- Thematic ETFs ----
     "VanEck Uranium & Nuclear ETF": "NLR",
@@ -54,7 +58,8 @@ with tab_dashboard:
         st.stop()
 
     data = add_technical_indicators(data)
-    st.plotly_chart(plot_candlestick(data, f"{asset_name} ({ticker})"), width='stretch')
+    display_title = format_asset_title(asset_name, ticker)
+    st.plotly_chart(plot_candlestick(data, display_title), width='stretch')
     st.subheader("📉 Relative Strength Index (RSI)")
     st.plotly_chart(plot_rsi(data), width='stretch')
 
@@ -76,7 +81,7 @@ with tab_forecast:
     if fc.empty:
         st.warning("Not enough data to produce a forecast.")
     else:
-        st.plotly_chart(plot_forecast(data, fc, f"{asset_name} ({ticker})"), width='stretch')
+        st.plotly_chart(plot_forecast(data, fc, display_title), width='stretch')
 
     st.info("This forecast uses a simple linear regression trend based on recent data.")
 
