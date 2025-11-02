@@ -1,2 +1,18 @@
-*.pyc
+# Python
 __pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+venv/
+.env/
+.venv/
+venv-fintech/
+
+# Jupyter / Streamlit cache
+.ipynb_checkpoints
+.streamlit/
+.cache/
+**/__pycache__/
